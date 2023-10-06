@@ -1,0 +1,2 @@
+streamlit~=1.27.1
+snowflake-connector-python~=3.2.0
