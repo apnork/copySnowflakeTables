@@ -1,7 +1,7 @@
 import snowflake.connector
 
 
-class SnowflakeAccessManager():
+class SnowflakeAccessManager:
 
     def __init__(self, conn_params):
         self.conn_params = conn_params

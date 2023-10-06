@@ -2,18 +2,6 @@ from snowflake_conn import SnowflakeAccessManager
 import streamlit as st
 
 
-# input: database name
-#         credentials for new account
-#              account identifier
-#              username
-#              password
-#              role
-#
-# output
-# New tables to be created in the new account.
-#
-
-
 def main_page():
     st.set_page_config(
         layout="centered",
@@ -71,7 +59,8 @@ def main_page():
         st.write("**New account details added ✅**")
 
     # st.write("Select database from old account")
-    selected_db_name = st.selectbox(label="Select database from old account", options=get_db_list(st.session_state.get("e_acc")))
+    if "e_acc" in st.session_state.keys():
+        selected_db_name = st.selectbox(label="Select database from old account", options=get_db_list(st.session_state.get("e_acc")))
     if "e_acc" in st.session_state.keys():
         schema_list = get_schema_list(st.session_state.get("e_acc"), selected_db_name)
         # removing information schema
@@ -99,22 +88,6 @@ def main_page():
         else:
             copy_tables(selected_db_name, selected_schemas, st.session_state.get("e_acc"),
                         st.session_state.get("n_acc"))
-
-    #
-    # select
-    # table_name
-    # FROM
-    # DEV_DB_CLONE.INFORMATION_SCHEMA.TABLES
-    # where
-    # table_schema = 'DEV_MTC_LKP_OBJ';
-    #
-    # select
-    # get_ddl('Table', 'DEV_DB_CLONE.DEV_MTC_LKP_OBJ.CHANNEL_PARTNER');
-    #
-    # for schema in selected_schemas:
-    #     # get all tables for this schema
-    #     with SnowflakeAccessManager(st.session_state.get("e_acc")) as sf_client:
-    #         tables = sf_client.query("select table_name from ")
 
 
 def get_db_list(conn_creds: dict) -> list:
